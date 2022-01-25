@@ -15,14 +15,20 @@ configurations {
 }
 
 repositories {
+	mavenLocal()
 	mavenCentral()
+}
+
+ext {
+	set('springCloudVersion', "2021.0.0")
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'io.jsonwebtoken:jjwt:0.9.1'
-	implementation 'javax.xml:jaxb-api:2.1'
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+	implementation group: 'com.investment', name: 'web-security-library', version: '1.0'
+	implementation group: 'com.investment', name: 'investment-client-library', version: '1.0'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -32,4 +38,10 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
 }

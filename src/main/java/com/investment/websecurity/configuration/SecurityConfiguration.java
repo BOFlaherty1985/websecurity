@@ -1,6 +1,6 @@
 package com.investment.websecurity.configuration;
 
-import com.investment.websecurity.service.CustomUserDetailService;
+import com.com.investment.websecuritylibrary.service.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,8 +14,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Autowired
     private CustomUserDetailService userDetailsService;
+
+    @Autowired
+    public SecurityConfiguration(CustomUserDetailService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -26,7 +30,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf()
                 .disable()
-                .authorizeHttpRequests().antMatchers("/authenticate").permitAll().anyRequest().authenticated();
+                .authorizeHttpRequests().antMatchers("/authenticate")
+                .permitAll().anyRequest().authenticated();
     }
 
     @Bean
